@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du message{% endblock %}
+
+{% block body %}
+    <h1>Détails du message</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Expéditeur</th>
+                <td>{{ message.sender }}</td>
+            </tr>
+            <tr>
+                <th>Destinataire</th>
+                <td>{{ message.recipient }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ message.content }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ message.createdAt ? message.createdAt|date('d/m/Y H:i') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_message_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <a href="{{ path('app_message_edit', {'id': message.id}) }}" class="btn btn-warning">Modifier</a>
+    
+    {# Utilisation directe du formulaire #}
+    <form method="post" action="{{ path('app_message_delete', {'id': message.id}) }}" class="d-inline">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+        <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message?')">
+            Supprimer
+        </button>
+    </form>
+{% endblock %}

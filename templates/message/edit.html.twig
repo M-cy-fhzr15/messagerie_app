@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le message{% endblock %}
+
+{% block body %}
+    <h1>Modifier le message</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success">{{ button_label|default('Mettre à jour') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_message_index') }}" class="btn btn-secondary mt-2">Retour à la liste</a>
+    
+    {# Utilisation directe du formulaire #}
+    <form method="post" action="{{ path('app_message_delete', {'id': message.id}) }}" class="d-inline">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+        <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message?')">
+            Supprimer
+        </button>
+    </form>
+{% endblock %}
